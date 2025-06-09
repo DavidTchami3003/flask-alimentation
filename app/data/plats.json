@@ -1,0 +1,23 @@
+[
+    {
+        "nom":"Domoda",
+        "ingredients":"viande de bœuf, carottes, piment, oignons, tomates, arachides",
+        "image_folder":"domoda"
+    },{
+        "nom":"Poulet Yassa",
+        "ingredients":"poulet, oignons, citron, piment, riz",
+        "image_folder":"poulet yassa"
+    },{
+        "nom":"Thiéboudienne",
+        "ingredients":"poisson, riz, tomates, carottes, chou",
+        "image_folder":"thieboudienne"
+    },{
+        "nom":"Mafé",
+        "ingredients":"viande de bœuf ou poulet, arachides, carottes, oignons, tomates",
+        "image_folder":"mafe"
+    },{
+        "nom":"Pastels",
+        "ingredients":"farine, thon, oignons, piment, coriandre",
+        "image_folder":"pastels"
+    }
+]
