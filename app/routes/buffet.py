@@ -5,22 +5,26 @@ from app.models.plat import Plat
 
 buffet_bp=Blueprint('buffet',__name__)
 
-@buffet_bp.route('/api/buffets', methods=['POST'])
+@buffet_bp.route('/api/buffets/generer', methods=['POST'])
 def create_buffet():
     if 'user_id' not in session:
         return jsonify({"erreur":"non connecté"}),401
+    
+    user_id=session['user_id']
     
     data = request.json
     nom = data.get('nom')
     date = data.get('date')
     lieu = data.get('lieu')
     plats_ids = data.get('plats', [])
+    # Vérification que tous les champs requis sont présents
+    if not all([nom, date, lieu, plats_ids]):
+        return jsonify({"erreur": "Champs manquants"}), 400
 
-    if not all([nom, date, lieu]):
-        return jsonify({"error": "Champs manquants"}), 400
+    #Création du buffet
+    buffet = Buffet(user_id=user_id,nom=nom, date=date, lieu=lieu)
 
-    buffet = Buffet(nom=nom, date=date, lieu=lieu)
-
+    #Ajoute des plats au buffet
     for pid in plats_ids:
         plat = Plat.query.get(pid)
         if plat:
@@ -38,6 +42,8 @@ def get_buffets():
     
     buffets = Buffet.query.all()
     result = []
+    
+    #Génération de la liste des buffets
     for b in buffets:
         result.append({
             "id": b.id,
@@ -48,12 +54,13 @@ def get_buffets():
         })
     return jsonify(result)
 
-@buffet_bp.route('/api/buffet/<int:buffet_id>',methods=['GET'])
+@buffet_bp.route('/api/buffets/<int:buffet_id>',methods=['GET'])
 def get_buffet(buffet_id):
     if 'user_id' not in session:
         return jsonify({"erreur":"non connecté"}),401
     
     buffet=Buffet.query.get_or_404(buffet_id)
+    
     return jsonify({
         "id":buffet.id,
         "nom":buffet.nom,
@@ -81,7 +88,12 @@ def ajouter_plats_buffet(id):
     buffet = Buffet.query.get_or_404(id)
     data = request.json
     plats_ids = data.get('plats', [])
+    
+    # Vérification que la liste des plats n'est pas vide
+    if not plats_ids:
+        return jsonify({"erreur": "Liste des plats vide"}), 400
 
+    # Ajout des plats au buffet
     for pid in plats_ids:
         plat = Plat.query.get(pid)
         if plat and plat not in buffet.plats:
@@ -99,10 +111,31 @@ def retirer_plats_buffet(id):
     data = request.json
     plats_ids = data.get('plats', [])
 
+    # Vérification que la liste des plats n'est pas vide
+    if not plats_ids:
+        return jsonify({"erreur": "Liste des plats vide"}), 400
+
+    # Retrait des plats du buffet
     for pid in plats_ids:
         plat = Plat.query.get(pid)
+        # Vérification que le plat existe et est dans le buffet
         if plat and plat in buffet.plats:
             buffet.plats.remove(plat)
 
     db.session.commit()
     return jsonify({"message": "Plats retirés du buffet"})
+
+@buffet_bp.route('/api/buffets', methods=['DELETE'])
+def api_supprimer_tous_buffets():
+    if 'user_id' not in session:
+        return jsonify({"erreur":"Non connecté"}),401
+    
+    user_id=session['user_id']
+    buffets = Buffet.query.filter_by(user_id=user_id).all()
+    
+    for buffet in buffets:
+        db.session.delete(buffet)
+    
+    db.session.commit()
+    
+    return jsonify({"message": "Tous les buffets ont été supprimés avec succès"})

@@ -16,11 +16,15 @@ def api_manger():
     allergique=data.get('allergique',False)
 
     user=User.query.get(session['user_id'])
-    consommations=Consommation.query.filter_by(user_id=user.id,plat_id=plat.id).all()
-    allergies_precedentes=[c for c in consommations if c.a_ete_allergique]
+    
+    #Récupération de toutes les consommations de l'utilisateur pour ce plat
+    consommations=Consommation.query.filter_by(user_id=user.id,plat_id=plat_id).all() 
+    #Vérification s'il y a des consommations précédentes où l'utilisateur a signalé une allergie
+    allergies_precedentes=[c for c in consommations if c.a_ete_allergique] 
 
     plat=Plat.query.get_or_404(plat_id)
-    consommation=Consommation(
+    #Création d'une nouvelle consommation
+    consommation=Consommation(              
         user_id=session['user_id'],
         plat_id=plat.id,
         a_ete_allergique=allergique
@@ -36,13 +40,17 @@ def api_statut_allergique (plat_id):
         return jsonify({"erreur":"Non connecté"}),401
     
     user_id=session['user_id']
-    total=Consommation.query.filter_by(user_id=user_id,plat_id=plat_id).count()
-    nb_allergies=Consommation.query.filter_by(use_id=user_id,plat_id=plat_id,a_ete_allergique=True).count()
+
+    #Nombre total de consommations pour ce plat par l'utilisateur
+    total=Consommation.query.filter_by(user_id=user_id,plat_id=plat_id).count() 
+    #Nombre de fois où l'utilisateur a signalé une allergie pour ce plat
+    nb_allergies=Consommation.query.filter_by(user_id=user_id,plat_id=plat_id,a_ete_allergique=True).count() 
 
     statut=None
     if total>0:
         ratio=nb_allergies/total
-        statut=True if ratio>0.3 and total >4 else False
+        #Si l'utilisateur a signalé une allergie plus de 30% du temps et qu'il a consommé le plat plus de 4 fois, il est considéré comme allergique
+        statut=True if ratio>0.3 and total >4 else False 
     
     return jsonify({
         "total":total,
@@ -56,15 +64,19 @@ def api_consommations():
         return jsonify({"erreur":"Non connecté"}),401
     
     user_id=session['user_id']
-    consommations = Consommation.query.filter_by(user_id=user_id).all()
+
+    #Récupération de toutes les consommations de l'utilisateur
+    consommations = Consommation.query.filter_by(user_id=user_id).all() 
     
     result = []
     for conso in consommations:
-        plat = Plat.query.get(conso.plat_id)
-        result.append({
+        #Récupération du plat associé à la consommation
+        plat = Plat.query.get(conso.plat_id) 
+        #Création d'une liste de dictionnaires avec les informations de chaque consommation
+        result.append({   
             "plat_id": conso.plat_id,
             "plat_nom": plat.nom if plat else "Inconnu",
-            "a_ete_allergique": conso.a_ete_allergique
+            "a_ete_allergique": True if conso.a_ete_allergique else False
         })
     
     return jsonify(result)
@@ -75,13 +87,15 @@ def api_consommation_par_plat(plat_id):
         return jsonify({"erreur":"Non connecté"}),401
     
     user_id=session['user_id']
-    consommations = Consommation.query.filter_by(user_id=user_id, plat_id=plat_id).all()
+
+    #Récupération de toutes les consommations de l'utilisateur pour ce plat
+    consommations = Consommation.query.filter_by(user_id=user_id, plat_id=plat_id).all() 
     
     result = []
     for conso in consommations:
         result.append({
             "plat_id": conso.plat_id,
-            "a_ete_allergique": conso.a_ete_allergique,
+            "a_ete_allergique": True if conso.a_ete_allergique else False,
             "date":conso.date.strftime('%Y-%m-%d %H:%M:%S')
         })
     
@@ -93,12 +107,13 @@ def api_supprimer_consommation(plat_id):
         return jsonify({"erreur":"Non connecté"}),401
     
     user_id=session['user_id']
-    consommation = Consommation.query.filter_by(user_id=user_id, plat_id=plat_id).first()
+    #Récupération de la consommation de l'utilisateur pour ce plat
+    consommation = Consommation.query.filter_by(user_id=user_id, plat_id=plat_id).first() 
     
     if not consommation:
-        return jsonify({"erreur": "Consommation non trouvée"}),404
+        return jsonify({"message": "Consommation non trouvée"}),404
     
-    db.session.delete(consommation)
+    db.session.delete(consommation) #Suppression de la consommation
     db.session.commit()
     
     return jsonify({"message": "Consommation supprimée avec succès"})
@@ -109,8 +124,12 @@ def api_supprimer_toutes_consommations():
         return jsonify({"erreur":"Non connecté"}),401
     
     user_id=session['user_id']
-    consommations = Consommation.query.filter_by(user_id=user_id).all()
+    consommations = Consommation.query.filter_by(user_id=user_id).all() #Récupération de toutes les consommations de l'utilisateur
     
+    if not consommations:
+        return jsonify({"message": "Aucune consommation à supprimer"}), 404
+    
+    # Suppression de toutes les consommations de l'utilisateur
     for conso in consommations:
         db.session.delete(conso)
     

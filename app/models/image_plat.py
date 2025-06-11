@@ -6,4 +6,3 @@ class ImagePlat(db.Model):
     plat_id = db.Column(db.Integer, db.ForeignKey('plat.id'), nullable=False)
     image_url = db.Column(db.String(255), nullable=False)
 
-    plat = db.relationship("Plat", back_populates="images")

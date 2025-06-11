@@ -7,7 +7,7 @@ class Buffet(db.Model):
     lieu=db.Column(db.String(100),nullable=False)
     user_id=db.Column(db.Integer,db.ForeignKey('user.id'),nullable=False)
 
-    plats=db.relationship("Plat",secondary="buffet_plat",backref="buffets")
+    plats=db.relationship("Plat",secondary="buffet_plat",back_populates="buffet")
 
 buffet_plat = db.Table('buffet_plat',
     db.Column('buffet_id', db.Integer, db.ForeignKey('buffet.id'), primary_key=True),

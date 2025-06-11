@@ -10,12 +10,11 @@ def create_app():
     app.config.from_object(Config)
 
     db.init_app(app)
-    session.__init__()
 
     from .models import init_models
     init_models()
 
     from .routes import init_routes
-    init_routes()
+    init_routes(app)
 
     return app

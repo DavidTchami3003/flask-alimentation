@@ -2,22 +2,107 @@
     {
         "nom":"Domoda",
         "ingredients":"viande de bœuf, carottes, piment, oignons, tomates, arachides",
-        "image_folder":"domoda"
+        "image_folder":"domoda",
+        "images":[
+            "domoda1.jpeg",
+            "domoda2.jpeg",
+            "domoda3.jpeg",
+            "domoda4.jpeg",
+            "domoda5.jpeg",
+            "domoda6.jpeg",
+            "domoda7.jpeg",
+            "domoda8.jpeg",
+            "domoda9.jpeg",
+            "domoda10.jpeg",
+            "domoda11.jpeg",
+            "domoda12.jpeg",
+            "domoda13.jpeg",
+            "domoda14.jpeg",
+            "domoda15.jpeg"
+        ]
     },{
         "nom":"Poulet Yassa",
         "ingredients":"poulet, oignons, citron, piment, riz",
-        "image_folder":"poulet yassa"
+        "image_folder":"poulet yassa",
+        "images":[
+            "yassa1.jpeg",
+            "yassa2.jpeg",
+            "yassa3.jpeg",
+            "yassa4.jpeg",
+            "yassa5.jpeg",
+            "yassa6.jpeg",
+            "yassa7.jpeg",
+            "yassa8.jpeg",
+            "yassa9.jpeg",
+            "yassa10.jpeg",
+            "yassa11.jpeg",
+            "yassa12.jpeg",
+            "yassa13.jpeg",
+            "yassa14.jpeg",
+            "yassa15.jpeg"
+        ]
     },{
         "nom":"Thiéboudienne",
         "ingredients":"poisson, riz, tomates, carottes, chou",
-        "image_folder":"thieboudienne"
+        "image_folder":"thieboudienne",
+        "images":[
+            "thiebou1.jpeg",
+            "thiebou2.jpeg",
+            "thiebou3.jpeg",
+            "thiebou4.jpeg",
+            "thiebou5.jpeg",
+            "thiebou6.jpeg",
+            "thiebou7.jpeg",
+            "thiebou8.jpeg",
+            "thiebou9.jpeg",
+            "thiebou10.jpeg",
+            "thiebou11.jpeg",
+            "thiebou12.jpeg",
+            "thiebou13.jpeg",
+            "thiebou14.jpeg",
+            "thiebou15.jpeg"
+        ]
     },{
         "nom":"Mafé",
         "ingredients":"viande de bœuf ou poulet, arachides, carottes, oignons, tomates",
-        "image_folder":"mafe"
+        "image_folder":"mafe",
+        "images":[
+            "mafe1.jpeg",
+            "mafe2.jpeg",
+            "mafe3.jpeg",
+            "mafe4.jpeg",
+            "mafe5.jpeg",
+            "mafe6.jpeg",
+            "mafe7.jpeg",
+            "mafe8.jpeg",
+            "mafe9.jpeg",
+            "mafe10.jpeg",
+            "mafe11.jpeg",
+            "mafe12.jpeg",
+            "mafe13.jpeg",
+            "mafe14.jpeg",
+            "mafe15.jpeg"
+        ]
     },{
         "nom":"Pastels",
         "ingredients":"farine, thon, oignons, piment, coriandre",
-        "image_folder":"pastels"
+        "image_folder":"pastels",
+        "images":[
+            "pastels1.jpeg",
+            "pastels2.jpeg",
+            "pastels3.jpeg",
+            "pastels4.jpeg",
+            "pastels5.jpeg",
+            "pastels6.jpeg",
+            "pastels7.jpeg",
+            "pastels8.jpeg",
+            "pastels9.jpeg",
+            "pastels10.jpeg",
+            "pastels11.jpeg",
+            "pastels12.jpeg",
+            "pastels13.jpeg",
+            "pastels14.jpeg",
+            "pastels15.jpeg"
+        ]
     }
 ]
